@@ -37,6 +37,8 @@ namespace ShopItNow.WebUI
            
             services.AddDbContext<ShopItNowContext>(options =>options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IProductRepository, EFProductRepository>();
+            services.AddTransient<ICategoryRepository, EFCategoryRepository>();
+            services.AddTransient<IUnitOfWork, EFUnitOfWork>();
             services.AddMvc();
         }
 
@@ -64,6 +66,8 @@ namespace ShopItNow.WebUI
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            SeedData.EnsurePopulated(app);
         }
     }
 }

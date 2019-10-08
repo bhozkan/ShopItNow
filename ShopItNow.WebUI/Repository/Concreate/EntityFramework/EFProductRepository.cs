@@ -1,18 +1,30 @@
-﻿using ShopItNow.WebUI.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using ShopItNow.WebUI.Entity;
 using ShopItNow.WebUI.Repository.Abstract;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace ShopItNow.WebUI.Repository.Concreate.EntityFramework
 {
-    class EFProductRepository : IProductRepository
+    public class EFProductRepository : EFGenericRepository<Product>, IProductRepository
     {
-        private ShopItNowContext context;
-
-        public EFProductRepository(ShopItNowContext ctx)
+        public EFProductRepository(ShopItNowContext context)
+            :base(context)
         {
-            context = ctx;
+
         }
 
-        public IQueryable<Product> Products => context.Products;
+        public ShopItNowContext shopItNowContext
+        {
+            get { return context as ShopItNowContext; }
+        } 
+        public List<Product> GetTop5Products()
+        {
+            return shopItNowContext.Products.OrderByDescending(p => p.ProductId).Take(5).ToList();
+
+            
+        }
     }
 }

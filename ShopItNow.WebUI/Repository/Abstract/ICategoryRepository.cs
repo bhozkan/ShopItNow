@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace ShopItNow.WebUI.Repository.Abstract
 {
-    public interface IProductRepository : IGenericRepository<Product>
+    public interface ICategoryRepository : IGenericRepository<Category>
     {
-        List<Product> GetTop5Products();
+        Category GetByName(string name); 
     }
 }
